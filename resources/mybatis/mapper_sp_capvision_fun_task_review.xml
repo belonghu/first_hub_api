@@ -1,0 +1,28 @@
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="TaskReview">
+
+    <select id="select_list" parameterType="Map" resultType="TaskReview">
+        SELECT *
+        FROM task_review
+        WHERE 1=1
+        <if test="autoPicDiff != ''">
+            AND auto_pick_diff = #{autoPicDiff}
+        </if>
+        limit ${offset}, ${pageSize}
+    </select>
+
+    <select id="select_count" parameterType="Map" resultType="Integer">
+        SELECT COUNT(*)
+        FROM task_review
+        WHERE 1=1
+        <if test="autoPicDiff != ''">
+            AND auto_pick_diff = #{autoPicDiff}
+        </if>
+    </select>
+    
+    <update id="update_auto_pick_diff" parameterType="Map">
+        UPDATE task_review
+        SET auto_pick_diff = #{autoPicDiff}
+        WHERE task_id = #{taskId}
+    </update>
+</mapper>

@@ -1,0 +1,49 @@
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="DemandsProg">
+
+    <select id="select_by_id" parameterType="Map" resultType="DemandsProg" >
+        SELECT * from demands_prog WHERE id = #{id}
+    </select>
+
+    <update id="update_manual_detail" parameterType="Map" >
+        UPDATE demands_prog
+        SET manual_detail = #{content}
+        WHERE id = #{id}
+    </update>
+
+    <select id="select_list" parameterType="Map" resultType="DemandsProg">
+      SELECT t.*, GROUP_CONCAT(ll.label) AS  labels
+      FROM demands_prog_copy t
+      LEFT JOIN last7_proj_labels ll ON  ll.demand_id = t.id
+      WHERE  1= 1
+        <if test="clientAm != ''">
+            AND t.client_am_team = #{clientAm}
+        </if>
+        <if test="ctype != ''">
+            AND t.demand_ctype = #{ctype}
+        </if>
+      AND t.demand_ctype in('NPT','NPT_copy','NPT_reply','NPT_can', 'NPT_cannot', 'REM')
+      GROUP BY t.id
+      ORDER BY t.id DESC
+      limit ${offset}, ${pageSize}
+    </select>
+
+    <select id="select_count" parameterType="Map" resultType="Integer">
+      SELECT COUNT(*)
+      FROM demands_prog_copy
+      WHERE 1=1
+        <if test="clientAm != ''">
+            AND client_am_team = #{clientAm}
+        </if>
+        <if test="ctype != ''">
+            AND demand_ctype = #{ctype}
+        </if>
+      AND demand_ctype in('NPT','NPT_copy','NPT_reply','NPT_can', 'NPT_cannot', 'REM')
+    </select>
+
+    <update id="update_ctype" parameterType="Map">
+        update demands_prog_copy
+        SET demand_ctype = #{Ctype}
+        WHERE id = #{id}
+    </update>
+</mapper>

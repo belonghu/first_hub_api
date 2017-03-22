@@ -1,0 +1,32 @@
+<beans xmlns="http://www.springframework.org/schema/beans"
+       xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+       xmlns:context="http://www.springframework.org/schema/context"
+       xmlns:aop="http://www.springframework.org/schema/aop" xmlns:tx="http://www.springframework.org/schema/tx"
+       xsi:schemaLocation="http://www.springframework.org/schema/beans
+        http://www.springframework.org/schema/beans/spring-beans.xsd
+        http://www.springframework.org/schema/context http://www.springframework.org/schema/context/spring-context.xsd http://www.springframework.org/schema/aop http://www.springframework.org/schema/aop/spring-aop.xsd http://www.springframework.org/schema/tx http://www.springframework.org/schema/tx/spring-tx.xsd">
+
+    <context:annotation-config/>
+    <context:component-scan base-package="com.wetan.api"/>
+
+    <aop:aspectj-autoproxy />
+
+    <bean id="capvisionFunDbSource" class="org.apache.commons.dbcp.BasicDataSource" destroy-method="close">
+        <property name="driverClassName" value="${capvision_fun.driverClassName}"/>
+        <property name="url" value="${capvision_fun.url}"/>
+        <property name="username" value="${capvision_fun.username}"/>
+        <property name="password" value="${capvision_fun.password}"/>
+        <property name="maxActive" value="${capvision_fun.maxActive}"/>
+        <property name="maxIdle" value="${capvision_fun.maxIdle}"/>
+        <property name="validationQuery" value="SELECT 1"/>
+        <property name="testOnBorrow" value="true"/>
+    </bean>
+
+    <bean id="CapvisionFunSpSessionFactory" class="org.mybatis.spring.SqlSessionFactoryBean">
+        <property name="dataSource" ref="capvisionFunDbSource"/>
+        <property name="configLocation" value="classpath:mybatis/capvision_fun_sp_mapper_config.xml"/>
+    </bean>
+
+    <context:property-placeholder location="classpath:properties/jdbc.properties"/>
+
+</beans>

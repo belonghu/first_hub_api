@@ -1,0 +1,23 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE configuration PUBLIC "-//mybatis.org//DTD Config 3.0//EN" "http://mybatis.org/dtd/mybatis-3-config.dtd">
+<configuration>
+    <settings>
+        <setting name="cacheEnabled" value="true" />
+        <setting name="lazyLoadingEnabled" value="false" />
+        <setting name="useGeneratedKeys" value="true" />
+        <setting name="logPrefix" value="database.pay-" />
+        <setting name="mapUnderscoreToCamelCase" value="false" />
+        <setting name="logImpl" value="LOG4J"/>
+    </settings>
+
+    <typeAliases>
+        <typeAlias alias="DemandsProg" type="com.wetan.api.pojo.DemandsProg" />
+        <typeAlias alias="TaskReview" type="com.wetan.api.pojo.TaskReview" />
+    </typeAliases>
+
+    <mappers>
+        <mapper resource="mybatis/mapper_sp_capvision_fun_demand_programs.xml" />
+        <mapper resource="mybatis/mapper_sp_capvision_fun_task_review.xml" />
+    </mappers>
+
+</configuration>
